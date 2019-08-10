@@ -1,36 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/libs.css')}}">
-    <title>Admin Users Index</title>
-</head>
-<body>
+@extends('layouts.admin')
 
-<div class="jumbotron text-center">
-  <h1>Administrator Page</h1>
-  <p>Resize this responsive page to see the effect!</p> 
-</div>
+@section('content')
+    <h1>Users</h1>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <p>Lorem ipsum dolor..</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <p>Lorem ipsum dolor..</p>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3> 
-      <p>Lorem ipsum dolor..</p>
-    </div>
-  </div>
-</div>
-    
-</body>
-</html>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th>Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+              @foreach($users as $user)
+                  <tr>
+                      <td>{{ $user->id }}</td>
+                      <td>{{ $user->name }}</td>
+                      <td>{{ $user->email }}</td>
+                      <td>{{ $user->role->name }}</td>
+                      <td>
+                         {{$user->is_active == 1 ? 'Active' :  'Not Active' }}                      
+                      </td>
+                      <td>{{ $user->created_at->diffForHumans() }}</td>
+                      <td>{{ $user->updated_at->diffForHumans() }}</td>
+
+                  </tr>
+              @endforeach
+        </tbody>
+    </table>
+@endsection

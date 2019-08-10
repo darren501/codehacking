@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use DateTime;
+use Carbon\Carbon;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -15,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'role_id', 'is_active', 'photo_id',
     ];
 
     /**
@@ -30,4 +33,19 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo('App\Role');
     }
+
+    public function setPasswordAttribute($value){
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+    /*
+    public function getCreatedAtAttribute($value){
+        $new_value = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+         return date_format($new_value, 'g:ia \o\n l jS F Y');
+    }
+
+    public function getUpdatedAtAttribute($value){
+        $new_value = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+         return date_format($new_value, 'g:ia \o\n l jS F Y');
+    }  */
 }

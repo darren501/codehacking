@@ -64,6 +64,8 @@ $(document).ready(function(){
 
     $('[data-toggle="tooltip"]').tooltip();
 
+    //alert("Test alert Kevin 1235");
+
     //$('button').click(function(e) {
     //    e.preventDefault();
     //    alert("This is a demo.\n :-)");
