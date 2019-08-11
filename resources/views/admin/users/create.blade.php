@@ -1,8 +1,4 @@
 @extends('layouts.admin')
-<?php
-    use Illuminate\Support\Facades\Input;
-?>
-
 
 @section('content')
         <h1>Create Users</h1>
@@ -57,6 +53,9 @@
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password">
+                @if($errors->has('password'))
+                        <span class="form_errors"> {{ $errors->first('password') }} </span>
+                @endif
             </div>
 
 

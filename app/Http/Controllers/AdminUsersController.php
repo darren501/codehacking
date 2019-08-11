@@ -6,8 +6,9 @@ use App\Http\Requests\UsersRequest;
 use App\User;
 use App\Role;
 use App\Photo;
-
 use Illuminate\Http\Request;
+use Hash;
+
 
 class AdminUsersController extends Controller
 {
@@ -45,8 +46,16 @@ class AdminUsersController extends Controller
     public function store(UsersRequest $request)
     {
         //
+        $input = null;
 
-        $input = $request->all();
+        if($request->password == ""){
+            $input =  $request->except('password');
+        }else{
+            $input = $request->all();
+            $input['password'] = Hash::make($request->password);
+        }
+
+        
 
         if($file = $request->file('photo_id')){
             $name = time() . $file->getClientOriginalName();
@@ -86,7 +95,10 @@ class AdminUsersController extends Controller
     public function edit($id)
     {
         //
-        return view('admin.users.edit');
+        $roles = Role::all('id', 'name');
+        $user = User::findOrFail($id);
+
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -98,7 +110,50 @@ class AdminUsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        /**
+         * Validation added here to check for email addresses that don't belong to the current 
+         * update id. Cannot do this in request class because controller executes validation before 
+         * it enters to the rest of the variable of the form
+         */
+        $input = null;
+
+        if($request->password == ""){
+            $input =  $request->except('password');
+        }else{
+            $input = $request->all();
+            $input['password'] = Hash::make($request->password);
+        }
+
+        $user = User::find($id);
+
+        $this->validate($request, [
+            //
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$user->id,
+            'password' => 'nullable|min:5',
+            'is_active' => 'required',
+            'role_id' => 'required',
+        ]);
+
+
+
+        if($file = $request->file('photo_id')){
+            $name = time() . $file->getClientOriginalName();
+
+            $file->move('images', $name);
+
+
+            $photo = Photo::create(['file' => $name]);
+
+            $input['photo_id'] = $photo->id;
+        }
+
+
+        $user->update($input);
+
+
+        return redirect('/admin/users');
+        
     }
 
     /**

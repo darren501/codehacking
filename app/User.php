@@ -39,9 +39,13 @@ class User extends Authenticatable
         return $this->belongsTo('App\Photo');
     }
 
+
+    /*
     public function setPasswordAttribute($value){
+
+       
         $this->attributes['password'] = Hash::make($value);
-    }
+    }  */
 
     /*
     public function getCreatedAtAttribute($value){

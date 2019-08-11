@@ -8,9 +8,16 @@ class Photo extends Model
 {
     //
 
+    protected $uploads = "/images/";
+
     protected $fillable = ['file'];
 
     public function user(){
         return $this->hasOne('App\User');
+    }
+
+
+    public function getFileAttribute($value){
+        return $this->uploads . $value;
     }
 }
