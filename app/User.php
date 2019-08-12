@@ -40,6 +40,16 @@ class User extends Authenticatable
     }
 
 
+    public function isAdmin(){
+
+        $bool = false;
+        if($this->role->name ==  "Administrator" && $this->is_active == 1){
+           $bool = true;
+        }
+
+        return $bool;
+    }
+
     /*
     public function setPasswordAttribute($value){
 

@@ -31,7 +31,13 @@
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+
+                    
                 </div>
+
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ route('users.index') }}">Administration</a></li>
+                </ul>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->

@@ -74,7 +74,19 @@
                         <input type="file" id="file" name="photo_id">
                     </div>
 
-                    <button type="submit" class="btn btn-info">Save</button>
+                    <div class="form-group">
+                    <button type="submit" class="btn btn-info col-sm-6">Save</button>
+                    </div>
+                </form>
+
+   
+                <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                {{ csrf_field() }}
+                    <div class="form-group">
+                   
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="submit" class="btn btn-danger col-sm-6" value="Delete User">
+                    </div>
                 </form>
 
                 </div>

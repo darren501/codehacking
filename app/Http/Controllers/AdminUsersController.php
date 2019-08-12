@@ -7,6 +7,7 @@ use App\User;
 use App\Role;
 use App\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Hash;
 
 
@@ -69,6 +70,7 @@ class AdminUsersController extends Controller
 
 
         User::create($input);
+        Session::flash('user_created', 'Success: User has been created!');
         
         return redirect('/admin/users');
         //return $request->all();
@@ -151,6 +153,7 @@ class AdminUsersController extends Controller
 
         $user->update($input);
 
+        Session::flash('user_edited', 'Success: User has been edited!');
 
         return redirect('/admin/users');
         
@@ -163,7 +166,14 @@ class AdminUsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $user= User::findOrFail($id);
+
+        unlink(public_path() . $user->photo->file);
+
+        $user->delete();
+        
+        Session::flash('deleted_user', 'The user has been deleted');
+        return redirect('/admin/users');
     }
 }
