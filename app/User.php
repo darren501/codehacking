@@ -50,6 +50,10 @@ class User extends Authenticatable
         return $bool;
     }
 
+
+    public function post(){
+        return $this->hasMany('App\User');
+    }
     /*
     public function setPasswordAttribute($value){
 
